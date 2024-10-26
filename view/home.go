@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	gola "github.com/paulus-otto-harman/golang-module"
+	"project/model"
 	"project/util"
+	"slices"
 )
 
 type Home struct {
@@ -35,7 +37,14 @@ func (home *Home) Render(ctx context.Context) {
 				(&MakeAppointment{}).Render(ctx)
 			case 3:
 				(&MakeAppointment{}).Render(ctx)
+			case 4:
+				patients := (&model.Pasien{}).Retrieve().([]model.Pasien)
 
+				fmt.Println(
+					slices.IndexFunc(patients, func(pasien model.Pasien) bool {
+						return pasien.Nama == "tiga" && pasien.Alamat == "tiga"
+					}))
+				gola.Wait("")
 			case 0:
 				home.isLogout = true
 				return
