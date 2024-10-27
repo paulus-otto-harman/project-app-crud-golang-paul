@@ -36,7 +36,9 @@ func (home *Home) Render(ctx context.Context) {
 			case 3:
 				(&CancelAppointment{}).Render(ctx)
 			case 4:
-
+				(&Status{}).Render(ctx)
+			case 5:
+				(&Report{}).Render(ctx)
 			case 0:
 				home.isLogout = true
 				return
