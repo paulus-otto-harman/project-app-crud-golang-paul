@@ -25,7 +25,7 @@ func (list *Appointments) Render(ctx context.Context) {
 
 	// body
 	for _, appointment := range appointments {
-		if !appointment.TidakDatang {
+		if appointment.TidakDatang {
 			fmt.Printf("│  %-12s │ %-10s │ %-*s │ %-*s │\n", fmt.Sprintf("%2d", appointment.Id), appointment.Tanggal, WidthNama, appointment.Pasien.Nama, WidthAlamat, appointment.Pasien.Alamat)
 		}
 	}

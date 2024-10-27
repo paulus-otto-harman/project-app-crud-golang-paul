@@ -100,17 +100,13 @@ func (janjiTemu *JanjiTemu) Save() {
 	defer file.Close()
 
 	encoder := json.NewEncoder(file)
-	fmt.Println("sebelum", appointments)
-	for _, appointment := range appointments {
+
+	for index, appointment := range appointments {
 		if appointment.Id == janjiTemu.Id {
-			fmt.Println("ganti", janjiTemu)
-			appointment = *janjiTemu
-			fmt.Println("ganti", appointment)
+			appointments[index] = *janjiTemu
 			break
 		}
 	}
-
-	fmt.Println("sesudah", appointments)
 
 	if err := encoder.Encode(appointments); err != nil {
 		fmt.Println("Error encoding JSON:", err)

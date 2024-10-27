@@ -35,10 +35,12 @@ func (screen *Reschedule) Render(ctx context.Context) {
 			if err != nil {
 				gola.Wait("ID Janji Temu tidak ditemukan")
 			} else {
-				fmt.Println("Menyimpan")
-				appointment.Tanggal = "xxx"
+
+				for err := errors.New(""); err != nil; {
+					appointment.Tanggal, err = gola.ToString(gola.Input(gola.Args(gola.P("label", fmt.Sprintf("\n%s :", "Masukkan Tanggal Baru")))))
+				}
 				appointment.Save()
-				gola.Wait("Berhasil")
+				gola.Wait("Ubah Jadwal Berhasil")
 			}
 
 		}
