@@ -5,6 +5,7 @@ type JsonDb interface {
 	Save()
 	Create()
 	Retrieve() interface{}
+	Delete()
 }
 
 const DbPath = "database"

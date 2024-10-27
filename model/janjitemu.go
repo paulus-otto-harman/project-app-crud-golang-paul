@@ -112,3 +112,25 @@ func (janjiTemu *JanjiTemu) Save() {
 		fmt.Println("Error encoding JSON:", err)
 	}
 }
+
+func (janjiTemu *JanjiTemu) Delete() {
+	appointments := (janjiTemu.Retrieve()).([]JanjiTemu)
+	file, err := os.Create(fmt.Sprintf("%s/%s.json", DbPath, JanjiTemuDB))
+	if err != nil {
+		fmt.Println("Error creating file:", err)
+	}
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+
+	for index, appointment := range appointments {
+		if appointment.Id == janjiTemu.Id {
+			appointments = append(appointments[:index], appointments[index+1:]...)
+			break
+		}
+	}
+
+	if err := encoder.Encode(appointments); err != nil {
+		fmt.Println("Error encoding JSON:", err)
+	}
+}

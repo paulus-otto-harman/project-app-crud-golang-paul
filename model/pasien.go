@@ -75,6 +75,14 @@ func (pasien *Pasien) Retrieve() interface{} {
 	return patients
 }
 
+func (pasien *Pasien) Save() {
+
+}
+
+func (pasien *Pasien) Delete() {
+
+}
+
 func (pasien *Pasien) FirstOrCreate(nama string, alamat string) Pasien {
 	patients := pasien.Retrieve().([]Pasien)
 	i := slices.IndexFunc(patients, func(pasien Pasien) bool {
