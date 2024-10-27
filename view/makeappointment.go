@@ -12,7 +12,7 @@ import (
 type MakeAppointment struct {
 }
 
-func (appointment *MakeAppointment) Render(ctx context.Context) {
+func (screen *MakeAppointment) Render(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():

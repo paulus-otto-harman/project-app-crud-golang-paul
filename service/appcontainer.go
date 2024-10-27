@@ -10,6 +10,9 @@ import (
 func AppContainer(wg *sync.WaitGroup, timeout int) {
 	defer wg.Done()
 	sessionLifetime := time.Duration(timeout) * time.Second
+	if timeout == 0 {
+		sessionLifetime = time.Until(time.Now().AddDate(10, 0, 0))
+	}
 	for {
 		loginScreen := view.Login{}
 		func() {

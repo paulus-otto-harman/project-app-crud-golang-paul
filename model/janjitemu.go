@@ -2,8 +2,10 @@ package model
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
+	"slices"
 	"time"
 )
 
@@ -25,6 +27,17 @@ func InitJanjiTemu(tanggal string, pasien Pasien) *JanjiTemu {
 		CreatedAt:   time.Now().Format("2006-01-02 15:04:05")}
 	appointment.Id = appointment.GetId()
 	return &appointment
+}
+
+func FindAppointmentById(id int) (*JanjiTemu, error) {
+	appointments := (&JanjiTemu{}).Retrieve().([]JanjiTemu)
+	i := slices.IndexFunc(appointments, func(appointment JanjiTemu) bool {
+		return appointment.Id == id
+	})
+	if i == -1 {
+		return &JanjiTemu{}, errors.New("Not Found")
+	}
+	return &appointments[i], nil
 }
 
 func (janjiTemu *JanjiTemu) GetId() int {
@@ -87,13 +100,17 @@ func (janjiTemu *JanjiTemu) Save() {
 	defer file.Close()
 
 	encoder := json.NewEncoder(file)
-
+	fmt.Println("sebelum", appointments)
 	for _, appointment := range appointments {
 		if appointment.Id == janjiTemu.Id {
+			fmt.Println("ganti", janjiTemu)
 			appointment = *janjiTemu
+			fmt.Println("ganti", appointment)
 			break
 		}
 	}
+
+	fmt.Println("sesudah", appointments)
 
 	if err := encoder.Encode(appointments); err != nil {
 		fmt.Println("Error encoding JSON:", err)

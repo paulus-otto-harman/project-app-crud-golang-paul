@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"slices"
@@ -88,7 +89,14 @@ func (pasien *Pasien) FirstOrCreate(nama string, alamat string) Pasien {
 
 }
 
-func (pasien *Pasien) First(nama string, alamat string) Pasien {
+func (pasien *Pasien) First(nama string, alamat string) (Pasien, error) {
+	patients := pasien.Retrieve().([]Pasien)
+	i := slices.IndexFunc(patients, func(pasien Pasien) bool {
+		return pasien.Nama == nama && pasien.Alamat == alamat
+	})
+	if i == -1 {
+		return Pasien{}, errors.New("Not Found")
+	}
+	return patients[i], nil
 
-	return Pasien{}
 }

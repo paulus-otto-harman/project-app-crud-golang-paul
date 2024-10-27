@@ -6,6 +6,8 @@ import (
 )
 
 func main() {
+
+	// session lifetime satuan detik. gunakan 0 untuk 10 tahun.
 	const SessionTimeout = 50
 
 	wg := sync.WaitGroup{}

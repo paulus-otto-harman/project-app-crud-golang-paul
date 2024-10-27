@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	gola "github.com/paulus-otto-harman/golang-module"
+	"project/model"
+	"project/util"
 )
 
 type Reschedule struct {
@@ -16,16 +18,29 @@ func (screen *Reschedule) Render(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		default:
-			gola.ClearScreen()
+			util.ViewTitle("Klinik Dokter Umum - Ubah Jadwal (Reschedule)")
 
-			var idPasien interface{}
+			(&Appointments{}).Render(ctx)
 
+			var idJanjiTemu int
 			for err := errors.New(""); err != nil; {
-				idPasien, err = gola.Input(gola.Args(gola.P("label", fmt.Sprintf("%s : ", "ID Pasien atau [0] untuk kembali"))))
+				idJanjiTemu, err = gola.ToInt(gola.Input(gola.Args(gola.P("type", "number"), gola.P("label", fmt.Sprintf("\n%s : ", "Masukkan ID Janji Temu atau [0] untuk kembali")))))
 			}
-			if idPasien == "0" {
+
+			if idJanjiTemu == 0 {
 				return
 			}
+
+			appointment, err := model.FindAppointmentById(idJanjiTemu)
+			if err != nil {
+				gola.Wait("ID Janji Temu tidak ditemukan")
+			} else {
+				fmt.Println("Menyimpan")
+				appointment.Tanggal = "xxx"
+				appointment.Save()
+				gola.Wait("Berhasil")
+			}
+
 		}
 	}
 }
